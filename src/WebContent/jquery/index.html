@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+	#wrapper {
+		width : 50%;
+		margin : 0 auto;
+		text-align : center;
+		display : flex;
+		flex-wrap : wrap;
+	}
+	
+	.first, .second, .third{width : 50%; height : 50px;}
+	.first {width : 100%;}
+	
+	.first {background : red;}
+	.second {background : yellow;}
+	.third {background : blue;}
+	
+</style>
+<body>
+	<div id = "wrapper">
+		<div class = "first">컨텐츠를 불러오고 있습니다.</div>
+		<div class = "second">컨텐츠를 불러오고 있습니다.</div>
+		<div class = "third">컨텐츠를 불러오고 있습니다.</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			crossorigin="anonymous"></script>
+			
+	<script type="text/javascript">
+		$.ajax({
+			url: "http://211.197.177.100/web_2022-03-21/jquery/first", //"ajax로 요청할 서비스의 URL",
+			type: "GET", //"요청 방식(Method)",
+			data: "name1=value1&name2=value2",
+			dataType: "text",
+			success: function(data) {
+				// 응답을 성공적으로 받았을 때 수행할 코드
+				$(".first").text(data);
+			},
+			error: function(){
+				// 응답을 성공적으로 받지 못했을 때 수행할 코드
+				// 서버가 400, 500번대 상태코드를 응답하면 동작
+				alert("서버에 문제가 생겼습니다.");
+			}
+		});
+		
+		$.ajax({
+			url: "http://211.197.177.100/web_2022-03-21/jquery/second",
+			type: "GET", 
+			success: function() {
+				// 응답을 성공적으로 받았을 때 수행할 코드
+				$(".second").text("컨텐츠2");
+			},
+			error: function(result){
+				// 응답을 성공적으로 받지 못했을 때 수행할 코드
+				// 서버가 400, 500번대 상태코드를 응답하면 동작
+				
+				// 아래 조건식을 수정해서 400번대 응답이 왔을 때로 조건을 수정하세요.
+				// 500번대 응답이 왔을 때로 조건을 수정하세요,
+				
+				if(400 <= result.status && result.status < 500){
+					alert("비정상적인 호출입니다.");
+				} else if(500<= result.status && result.status < 600) {
+					alert("서버에 문제가 생겼습니다. 잠시후 다시 시도해주세요.");	
+				}
+			}
+		});
+	</script>
+</body>
+</html>

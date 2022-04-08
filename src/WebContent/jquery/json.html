@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<!-- JSON 데이터 요청 버튼을 눌렀을 때 ajax를 사용해서 서버로 데이터를 요청하고 -->
+<!-- 서버로부터 전달받은 데이터를 적절한 p 태그에 출력하세요. -->
+<!-- 데이터를 요청할 서버 경로 예시 : /web_2022-03-21/jquery/json -->
+<button type="button">JSON 데이터 요청</button>
+<p class = "name_wrap">이름 : <span></span></p>
+<p class = "age_wrap">나이 : <span></span></p>
+<p class = "univ_name_wrap">대학교 이름 : <span></span></p>
+<p class = "high_name_wrap">고등학교 이름 : <span></span></p>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+		crossorigin="anonymous"></script>
+<script type="text/javascript">
+$("button").on("click", function(){
+	$.ajax({
+		url: "/web_20220-03-21/jquery/json",
+		type: "GET",
+		dataType: "json",
+		success: function(data){
+// 			console.log("서버가 보낸 JSON");
+// 			console.log(data);
+			let name = data.name;
+			let age = data["age"];
+			let univName = data.university.name;
+			let highName = data.school_name[2];
+			
+			$(".name_wrap span").text(name);
+			$(".age_wrap span").text(age);
+			$(".univ_name_wrap span").text(univName);
+			$(".high_name_wrap span").text(highName);
+		},
+		error: function(response){
+			alert("서버에 문제가 생겼습니다.");
+		}
+	});
+});
+	
+</script>
+</body>
+</html>
